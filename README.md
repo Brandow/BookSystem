@@ -25,6 +25,8 @@ Para a construção do projeto foram utilizados:
 
 [Documentação Bootstrap](https://getbootstrap.com/docs/5.3/getting-started/introduction)
 
+[Documentação QueryBuilder](https://www.doctrine-project.org/projects/doctrine-orm/en/3.6/reference/query-builder.html)
+
 [Icones do Bootstrap](https://icons.getbootstrap.com/)
 
 [Status Cards na Pagina Home](https://bootstrapexamples.com/@anonymous/stats-cards-using-bootstrap-5)

@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Assunto;
 use App\Form\AssuntoType;
 use App\Repository\AssuntoRepository;
-use Doctrine\DBAL\Exception\ForeignKeyConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +16,7 @@ final class AssuntoController extends AbstractController
     public function index(AssuntoRepository $assuntoRepository): Response
     {
         return $this->render('assunto/index.html.twig', [
-            'assuntos' => $assuntoRepository->findAll(),
+            'assuntos' => $assuntoRepository->findAll(),  
         ]);
     }
 
@@ -71,7 +70,7 @@ final class AssuntoController extends AbstractController
     public function delete(#[MapEntity(mapping: ['CodAs' => 'CodAs'])] Assunto $assunto, Request $request, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $assunto->getCodAs(), $request->getPayload()->getString('_token'))) {
-            // Sem essa verificação o doctrine simplesmente ignora a regra do sql e apaga mesmo assim kkkkkk
+            
             if (!$assunto->getLivros()->isEmpty()) {
                 $this->addFlash('error', 'Este assunto está vinculado a um ou mais livros e não pode ser excluído.');
             } else {
