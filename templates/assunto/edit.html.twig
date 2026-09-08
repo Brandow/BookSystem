@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Assunto/Gênero{% endblock %}
+
+{% block body %}
+    <h1>Editar Assunto/Gênero</h1>
+
+    {{ include('assunto/_form.html.twig', {'button_label': 'Salvar'}) }}
+
+{% endblock %}

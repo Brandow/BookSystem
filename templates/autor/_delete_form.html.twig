@@ -1,0 +1,9 @@
+<form method="post" 
+      action="{{ path('autor_delete', {'CodAu': autor.CodAu}) }}" 
+      class="form-delete d-inline"
+      data-titulo="{{ autor.Nome }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ autor.CodAu) }}">
+    <button type="submit" class="btn btn-sm btn-danger" title="Excluir">
+        <i class="bi bi-x-circle"></i>
+    </button>
+</form>

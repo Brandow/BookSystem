@@ -1,0 +1,81 @@
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+<div class="row g-3">
+	<div class="col-12">
+		{{ form_label(form.Titulo, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+		{{ form_widget(form.Titulo, {'attr': {'class': 'form-control' ~ (form.Titulo.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+		<div class="invalid-feedback">
+			{{ form_errors(form.Titulo) }}
+		</div>
+	</div>
+
+	<div class="col-md-3">
+		{{ form_label(form.Editora, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+		{{ form_widget(form.Editora, {'attr': {'class': 'form-control' ~ (form.Editora.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+		<div class="invalid-feedback">
+			{{ form_errors(form.Editora) }}
+		</div>
+	</div>
+
+	<div class="col-md-3">
+		{{ form_label(form.Edicao, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+		{{ form_widget(form.Edicao, {'attr': {'class': 'form-control' ~ (form.Edicao.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+		<div class="invalid-feedback">
+			{{ form_errors(form.Edicao) }}
+		</div>
+	</div>
+
+	<div class="col-md-3">
+		{{ form_label(form.AnoPublicacao, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+		{{ form_widget(form.AnoPublicacao, {'attr': {'class': 'form-control' ~ (form.AnoPublicacao.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+		<div class="invalid-feedback">
+			{{ form_errors(form.AnoPublicacao) }}
+		</div>
+	</div>
+
+	<div class="col-md-3">
+		{{ form_label(form.Valor, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+		{{ form_widget(form.Valor, {'attr': {'class': 'form-control livro_Valor text-end' ~ (form.Valor.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+		<div class="invalid-feedback">
+			{{ form_errors(form.Valor) }}
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<label for="{{ form.autores.vars.id }}" class="form-label fw-semibold">
+			{{ form.autores.vars.label|default('Autores') }}
+			<i class="bi bi-info-circle text-muted ms-1" data-bs-toggle="tooltip" data-bs-title="Pressione a tecla Ctrl para selecionar múltiplos autores."></i>
+		</label>
+		{{ form_widget(form.autores, {'attr': {'class': 'form-select', 'size': 5}}) }}
+		<div class="text-danger small">
+			{{ form_errors(form.autores) }}
+		</div>
+	</div>
+
+	<div class="col-md-6">
+		<label for="{{ form.assuntos.vars.id }}" class="form-label fw-semibold">
+			{{ form.assuntos.vars.label|default('Assuntos') }}
+			<i class="bi bi-info-circle text-muted ms-1" data-bs-toggle="tooltip" data-bs-title="Pressione a tecla Ctrl para selecionar múltiplos assuntos/gêneros."></i>
+		</label>
+		{{ form_widget(form.assuntos, {'attr': {'class': 'form-select', 'size': 5}}) }}
+		<div class="text-danger small">
+			{{ form_errors(form.assuntos) }}
+		</div>
+	</div>
+</div>
+
+{{ form_rest(form) }}
+
+<hr class="my-4">
+
+<div class="d-flex gap-2 justify-content-end">
+
+	<a href="{{ path('livro_index') }}" class="btn btn-outline-secondary">
+		Voltar
+	</a>
+	<button type="submit" class="btn btn-primary px-4">
+		{{ button_label|default('Salvar Livro') }}
+	</button>
+</div>
+
+{{ form_end(form, {'render_rest': false}) }}

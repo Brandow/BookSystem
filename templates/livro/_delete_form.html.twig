@@ -1,0 +1,9 @@
+<form method="post" 
+      action="{{ path('livro_delete', {'Codl': livro.Codl}) }}" 
+      class="form-delete d-inline"
+      data-titulo="Livro: {{ livro.Titulo }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ livro.Codl) }}">
+    <button type="submit" class="btn btn-sm btn-danger" title="Excluir">
+        <i class="bi bi-x-circle"></i>
+    </button>
+</form>

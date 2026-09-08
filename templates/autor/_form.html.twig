@@ -1,0 +1,27 @@
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+
+<div class="row g-3">
+	<div class="col-12">
+		{{ form_label(form.Nome, null, {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+		{{ form_widget(form.Nome, {'attr': {'class': 'form-control' ~ (form.Nome.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+		<div class="invalid-feedback">
+			{{ form_errors(form.Nome) }}
+		</div>
+	</div>
+</div>
+
+{{ form_rest(form) }}
+
+<hr class="my-4">
+
+<div class="d-flex gap-2 justify-content-end">
+
+	<a href="{{ path('autor_index') }}" class="btn btn-outline-secondary">
+		Voltar
+	</a>
+	<button type="submit" class="btn btn-primary px-4">
+		{{ button_label|default('Salvar') }}
+	</button>
+</div>
+
+{{ form_end(form, {'render_rest': false}) }}

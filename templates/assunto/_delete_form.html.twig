@@ -1,0 +1,10 @@
+<form method="post" 
+      action="{{ path('assunto_delete', {'CodAs': assunto.CodAs}) }}" 
+      class="form-delete d-inline"
+      data-titulo="Assunto/Gênero: {{ assunto.Descricao }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ assunto.CodAs) }}">
+    <button type="submit" class="btn btn-sm btn-danger" title="Excluir">
+        <i class="bi bi-x-circle"></i>
+    </button>
+</form>
+

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Sistema Bibliotecas{% endblock %}</title>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body class="bg-light d-flex flex-column min-vh-100">
+        
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+            <div class="container">
+                <a class="navbar-brand fw-bold" href="/">
+                    <i class="bi bi-book-half me-1"></i> Sistema Biblioteca
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent" aria-controls="navContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('livro_index') }}">
+                                <i class="bi bi-journal-text me-1"></i> Livros
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('autor_index') }}">
+                                <i class="bi bi-person-badge me-1"></i> Autores
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('assunto_index') }}">
+                                <i class="bi bi-tags me-1"></i> Assuntos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" target="_blank" href="{{ path('relatorio_pdf_livros') }}">
+                                <i class="bi bi-file-earmark-pdf me-1"></i> Relatório de Livros
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <main class="container my-4 flex-grow-1">
+            
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show shadow-sm" role="alert">
+                        {% if label == 'success' %}
+                            <i class="bi bi-check-circle-fill me-2"></i>
+                        {% elseif label == 'error' or label == 'danger' %}
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        {% else %}
+                            <i class="bi bi-info-circle-fill me-2"></i>
+                        {% endif %}
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+
+            {% block body %}{% endblock %}
+        </main>
+
+        <footer class="bg-white border-top py-3 mt-auto text-center text-muted">
+            <div class="container small">
+                &copy; {{ "now"|date("Y") }} Sistema Biblioteca.
+            </div>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        {% block javascripts %}
+            <script>
+                $(document).ready(function(){
+                    $('.livro_Valor').mask('000.000.000,00', {reverse: true});
+                });
+
+                $(function () {
+                    $('[data-bs-toggle="tooltip"]').tooltip()
+                })
+
+                // SweetAlert para confirmação de exclusão
+                document.addEventListener('DOMContentLoaded', function () {
+                    document.querySelectorAll('.form-delete').forEach(function (form) {
+                        form.addEventListener('submit', function (event) {
+                            event.preventDefault();
+
+                            Swal.fire({
+                                title: 'Deseja excluir o <i>' + form.dataset.titulo + '</i>?',
+                                html: '<p class="text-danger fw-bold">Esta ação não poderá ser desfeita.</p>',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#dc3545',
+                                cancelButtonColor: '#6c757d',
+                                confirmButtonText: 'Sim, excluir!',
+                                cancelButtonText: 'Cancelar'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    form.submit();
+                                }
+                            });
+                        });
+                    });
+                });
+            </script>
+        {% endblock %}
+    </body>
+</html>

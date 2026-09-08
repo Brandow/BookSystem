@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Assunto / Gênero
+{% endblock %}
+
+{% block body %}
+	<h1>Assunto / Gênero</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Código</th>
+				<th>Descrição</th>
+				<th>Ações</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for assunto in assuntos %}
+				<tr>
+					<td>{{ assunto.CodAs }}</td>
+					<td>{{ assunto.Descricao }}</td>
+					<td>
+						<div class="d-flex gap-2">
+							<a href="{{ path('assunto_edit', {'CodAs': assunto.CodAs}) }}" class="btn btn-sm btn-secondary">Editar</a>
+							<a href="{{ path('assunto_show', {'CodAs': assunto.CodAs}) }}" class="btn btn-sm btn-info">+ Informações</a>
+							{{ include('assunto/_delete_form.html.twig') }}
+						</div>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="3">Nenhum assunto encontrado</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+    <a href="{{ path('assunto_new') }}" class="btn btn-primary">Cadastrar Novo Assunto/Gênero</a>
+{% endblock %}

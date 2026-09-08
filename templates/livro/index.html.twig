@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Livros Cadastrados {% endblock %}
+
+{% block body %}
+	<h1>Livro Cadastrados</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Codl</th>
+				<th>Titulo</th>
+				<th>Editora</th>
+				<th>Edicao</th>
+				<th>AnoPublicacao</th>
+                <th>Valor</th>
+				<th>Ações</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for livro in livros %}
+				<tr>
+					<td>{{ livro.Codl }}</td>
+					<td>{{ livro.Titulo }}</td>
+					<td>{{ livro.Editora }}</td>
+					<td>{{ livro.Edicao }}</td>
+					<td>{{ livro.AnoPublicacao }}</td>
+                    <td>R$ {{ livro.Valor|number_format(2, ',', '.') }}</td>
+					<td>
+						<div class="d-flex gap-2">
+							<a href="{{ path('livro_edit', {'Codl': livro.Codl}) }}" class="btn btn-sm btn-secondary">Editar</a>
+                            <a href="{{ path('livro_show', {'Codl': livro.Codl}) }}" class="btn btn-sm btn-info">+ Informações</a>
+							{{ include('livro/_delete_form.html.twig') }}
+						</div>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="6">Nenhum Registro Encontrado</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('livro_new') }}" class="btn btn-primary">Cadastrar Novo Livro</a>
+{% endblock %}
