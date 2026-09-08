@@ -10,9 +10,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
-use Symfony\Component\Routing\Attribute\Route;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\DBAL\Driver\Exception as DriverExceptionInterface;
 
 
 final class LivroController extends AbstractController
@@ -34,7 +31,8 @@ final class LivroController extends AbstractController
             $entityManager->persist($livro);
             $entityManager->flush();
 
-            return $this->redirectToRoute('livro_index', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Livro cadastrado com sucesso!');
+            return $this->redirectToRoute('livro_index');
         }
 
         return $this->render('livro/new.html.twig', [
@@ -79,6 +77,6 @@ final class LivroController extends AbstractController
             $this->addFlash('success', 'Livro excluído com sucesso!');
         }
 
-        return $this->redirectToRoute('livro_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('livro_index');
     }
 }

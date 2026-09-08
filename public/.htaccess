@@ -1,0 +1,31 @@
+DirectoryIndex index.php
+
+<IfModule mod_negotiation.c>
+    Options -MultiViews
+</IfModule>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Detecta automaticamente o subdiretório e define a variável BASE
+    RewriteCond %{REQUEST_URI}::$0 ^(/.+)/(.*)::\2$
+    RewriteRule .* - [E=BASE:%1]
+
+    # Repassa cabeçalho Authorization (tokens/JWT)
+    RewriteCond %{HTTP:Authorization} .+
+    RewriteRule ^ - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redireciona index.php direto para a raiz limpa
+    RewriteCond %{ENV:REDIRECT_STATUS} =""
+    RewriteRule ^index\.php(?:/(.*)|$) %{ENV:BASE}/$1 [R=301,L]
+
+    # Se o arquivo não existir fisicamente, manda para index.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ %{ENV:BASE}/index.php [L]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+    <IfModule mod_alias.c>
+        RedirectMatch 307 ^/$ /index.php/
+    </IfModule>
+</IfModule>

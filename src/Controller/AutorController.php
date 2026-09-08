@@ -33,7 +33,7 @@ final class AutorController extends AbstractController
 
             $this->addFlash('success', 'Autor cadastrado com sucesso!');
 
-            return $this->redirectToRoute('autor_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('autor_index');
         }
 
         return $this->render('autor/new.html.twig', [
@@ -59,7 +59,7 @@ final class AutorController extends AbstractController
 
             $this->addFlash('success', 'Autor atualizado com sucesso!');
 
-            return $this->redirectToRoute('autor_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('autor_index');
         }
 
         return $this->render('autor/edit.html.twig', [
@@ -71,15 +71,15 @@ final class AutorController extends AbstractController
     public function delete(#[MapEntity(mapping: ['CodAu' => 'CodAu'])] Autor $autor, Request $request, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $autor->getCodAu(), $request->getPayload()->getString('_token'))) {
-            try {
+            if (!$autor->getLivros()->isEmpty()) {
+                $this->addFlash('error', 'Este autor possui livros vinculados e não pode ser excluído.');
+            } else {
                 $entityManager->remove($autor);
                 $entityManager->flush();
                 $this->addFlash('success', 'Autor excluído com sucesso!');
-            } catch (ForeignKeyConstraintViolationException) {
-                $this->addFlash('error', 'Este autor possui livros vinculados e não pode ser excluído.');
             }
         }
 
-        return $this->redirectToRoute('autor_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('autor_index');
     }
 }

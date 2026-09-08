@@ -33,7 +33,7 @@ final class AssuntoController extends AbstractController
 
             $this->addFlash('success', 'Assunto cadastrado com sucesso!');
 
-            return $this->redirectToRoute('assunto_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('assunto_index');
         }
 
         return $this->render('assunto/new.html.twig', [
@@ -59,7 +59,7 @@ final class AssuntoController extends AbstractController
 
             $this->addFlash('success', 'Assunto atualizado com sucesso!');
 
-            return $this->redirectToRoute('assunto_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('assunto_index');
         }
 
         return $this->render('assunto/edit.html.twig', [
@@ -71,15 +71,16 @@ final class AssuntoController extends AbstractController
     public function delete(#[MapEntity(mapping: ['CodAs' => 'CodAs'])] Assunto $assunto, Request $request, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete' . $assunto->getCodAs(), $request->getPayload()->getString('_token'))) {
-            try {
+            // Sem essa verificação o doctrine simplesmente ignora a regra do sql e apaga mesmo assim kkkkkk
+            if (!$assunto->getLivros()->isEmpty()) {
+                $this->addFlash('error', 'Este assunto está vinculado a um ou mais livros e não pode ser excluído.');
+            } else {
                 $entityManager->remove($assunto);
                 $entityManager->flush();
                 $this->addFlash('success', 'Assunto excluído com sucesso!');
-            } catch (ForeignKeyConstraintViolationException) {
-                $this->addFlash('error', 'Este assunto está vinculado a um ou mais livros e não pode ser excluído.');
             }
         }
 
-        return $this->redirectToRoute('assunto_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('assunto_index');
     }
 }
