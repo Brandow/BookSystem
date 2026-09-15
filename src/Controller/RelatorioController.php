@@ -14,7 +14,7 @@ final class RelatorioController extends AbstractController
     {
         
         $sql = "SELECT * FROM vw_relatorio_livros";
-        $livros = $connection->fetchAllAssociative($sql);
+        $dados = $connection->fetchAllAssociative($sql);
 
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Helvetica');
@@ -22,7 +22,7 @@ final class RelatorioController extends AbstractController
         $dompdf = new Dompdf($pdfOptions);
 
         $html = $this->renderView('relatorio/livros.html.twig', [
-            'livros' => $livros,
+            'dados_relatorio' => $dados,
             'dataGeracao' => new \DateTime(),
         ]);
 

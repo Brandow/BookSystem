@@ -79,19 +79,18 @@ CREATE TABLE IF NOT EXISTS `livro_autor` (
 -- Copiando estrutura para view booksystem.vw_relatorio_livros
 -- Criando tabela temporária para evitar erros de dependência de VIEW
 CREATE TABLE `vw_relatorio_livros` (
-	`Codl` INT NOT NULL,
-	`Titulo` VARCHAR(1) NOT NULL COLLATE 'utf8mb4_unicode_ci',
+	`CodAu` INT NOT NULL,
+	`NomeAutor` VARCHAR(1) NOT NULL COLLATE 'utf8mb4_unicode_ci',
+	`CodLivro` INT NOT NULL,
+	`TituloLivro` VARCHAR(1) NOT NULL COLLATE 'utf8mb4_unicode_ci',
 	`Editora` VARCHAR(1) NOT NULL COLLATE 'utf8mb4_unicode_ci',
-	`Edicao` INT NOT NULL,
 	`AnoPublicacao` VARCHAR(1) NOT NULL COLLATE 'utf8mb4_unicode_ci',
-	`Valor` DECIMAL(10,2) NOT NULL,
-	`Autores` TEXT NULL COLLATE 'utf8mb4_unicode_ci',
 	`Assuntos` TEXT NULL COLLATE 'utf8mb4_unicode_ci'
 ) ENGINE=MyISAM;
 
 -- Removendo tabela temporária e criando a estrutura VIEW final
 DROP TABLE IF EXISTS `vw_relatorio_livros`;
-CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_relatorio_livros` AS select `l`.`Codl` AS `Codl`,`l`.`Titulo` AS `Titulo`,`l`.`Editora` AS `Editora`,`l`.`Edicao` AS `Edicao`,`l`.`AnoPublicacao` AS `AnoPublicacao`,`l`.`valor` AS `Valor`,group_concat(distinct `a`.`Nome` separator ', ') AS `Autores`,group_concat(distinct `s`.`Descricao` separator ', ') AS `Assuntos` from ((((`livro` `l` left join `livro_autor` `la` on((`l`.`Codl` = `la`.`Livro_Codl`))) left join `autor` `a` on((`la`.`Autor_CodAu` = `a`.`CodAu`))) left join `livro_assunto` `las` on((`l`.`Codl` = `las`.`Livro_Codl`))) left join `assunto` `s` on((`las`.`Assunto_codAs` = `s`.`codAs`))) group by `l`.`Codl`,`l`.`Titulo`,`l`.`Editora`,`l`.`Edicao`,`l`.`AnoPublicacao`,`l`.`valor` order by `l`.`Titulo`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `vw_relatorio_livros` AS select `a`.`CodAu` AS `CodAu`,`a`.`Nome` AS `NomeAutor`,`l`.`Codl` AS `CodLivro`,`l`.`Titulo` AS `TituloLivro`,`l`.`Editora` AS `Editora`,`l`.`AnoPublicacao` AS `AnoPublicacao`,group_concat(distinct `s`.`Descricao` separator ', ') AS `Assuntos` from ((((`autor` `a` join `livro_autor` `la` on((`a`.`CodAu` = `la`.`Autor_CodAu`))) join `livro` `l` on((`la`.`Livro_Codl` = `l`.`Codl`))) left join `livro_assunto` `las` on((`l`.`Codl` = `las`.`Livro_Codl`))) left join `assunto` `s` on((`las`.`Assunto_codAs` = `s`.`codAs`))) group by `a`.`CodAu`,`a`.`Nome`,`l`.`Codl`,`l`.`Titulo`,`l`.`Editora`,`l`.`AnoPublicacao` order by `a`.`Nome`,`l`.`Titulo`;
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

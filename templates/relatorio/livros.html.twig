@@ -56,36 +56,44 @@
     </style>
 </head>
 <body>
-
     <div class="header">
-        <h1>Relatório - Livros</h1>
+        <h1>Relatório - Livros Por Autor</h1>
         <div class="data-emissao">Gerado em: {{ dataGeracao|date('d/m/Y H:i') }}</div>
     </div>
 
     <table>
         <thead>
             <tr>
-                <th style="width: 5%;">Cód.</th>
-                <th style="width: 25%;">Título</th>
+                <th style="width: 10%;">Cód. Livro</th>
+                <th style="width: 35%;">Título</th>
                 <th style="width: 25%;">Editora</th>
-                <th style="width: 15%;">Gênero(s)</th>
-                <th style="width: 10%;text-align: center;">Ano de Publicação</th>
-                <th style="width: 20%;">Autor(es)</th>
+                <th style="width: 20%;">Gênero(s)</th>
+                <th style="width: 10%;text-align: center;">Ano</th>
             </tr>
         </thead>
         <tbody>
-            {% for livro in livros %}
+            {% set autor_atual = null %}
+            
+            {% for dados in dados_relatorio %}
+                
+                {% if autor_atual != dados.NomeAutor %}
+                    <tr>
+                        <td colspan="5" style="background-color: #e2e2e2; font-weight: bold; font-size: 14px; text-transform: uppercase;">
+                            Autor(a): {{ dados.NomeAutor }}
+                        </td>
+                    </tr>
+                    {% set autor_atual = dados.NomeAutor %}
+                {% endif %}
                 <tr>
-                    <td>{{ livro.Codl }}</td>
-                    <td>{{ livro.Titulo }}</td>
-                    <td>{{ livro.Editora }}</td>
-                    <td>{{ livro.Assuntos }}</td>
-                    <td style="text-align: center;">{{ livro.AnoPublicacao }}</td>
-                    <td>{{ livro.Autores }}</td>
+                    <td>{{ dados.CodLivro }}</td>
+                    <td>{{ dados.TituloLivro }}</td>
+                    <td>{{ dados.Editora }}</td>
+                    <td>{{ dados.Assuntos }}</td>
+                    <td style="text-align: center;">{{ dados.AnoPublicacao }}</td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="5" style="text-align: center;">Nenhum livro encontrado.</td>
+                    <td colspan="5" style="text-align: center;">Nenhum registro encontrado.</td>
                 </tr>
             {% endfor %}
         </tbody>
