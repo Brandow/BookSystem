@@ -4,15 +4,17 @@ namespace App\Controller;
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
-use App\Repository\LivroRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Doctrine\DBAL\Connection;
 
 final class RelatorioController extends AbstractController
 {
-    public function gerarPdfLivros(LivroRepository $livroRepository): Response
+    public function gerarPdfLivros(Connection $connection): Response
     {
-        $livros = $livroRepository->findLivrosRelatorio();
+        
+        $sql = "SELECT * FROM vw_relatorio_livros";
+        $livros = $connection->fetchAllAssociative($sql);
 
         $pdfOptions = new Options();
         $pdfOptions->set('defaultFont', 'Helvetica');

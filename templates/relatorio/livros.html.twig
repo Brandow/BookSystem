@@ -79,9 +79,9 @@
                     <td>{{ livro.Codl }}</td>
                     <td>{{ livro.Titulo }}</td>
                     <td>{{ livro.Editora }}</td>
-                    <td>{{ livro.assuntos|map(s => s.Descricao)|join(', ') }}</td>
+                    <td>{{ livro.Assuntos }}</td>
                     <td style="text-align: center;">{{ livro.AnoPublicacao }}</td>
-                    <td>{{ livro.autores|map(a => a.Nome)|join(', ') }}</td>
+                    <td>{{ livro.Autores }}</td>
                 </tr>
             {% else %}
                 <tr>
