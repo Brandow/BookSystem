@@ -81,8 +81,9 @@ class LivroType extends AbstractType
                 'currency' => 'BRL',
                 'divisor' => 1,
                 'scale' => 2,
+                'grouping' => true,
                 'label' => 'Valor do Livro',
-                'attr' => ['maxlength' => 10, 'placeholder' => 'R$ 0,00'],
+                'attr' => ['placeholder' => 'R$ 0,00'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'O valor do livro não pode estar em branco.',

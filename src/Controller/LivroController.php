@@ -41,8 +41,9 @@ final class LivroController extends AbstractController
         ]);
     }
 
-    public function show(#[MapEntity(mapping: ['Codl' => 'Codl'])] Livro $livro): Response
-    {
+    public function show(
+        #[MapEntity(mapping: ['Codl' => 'Codl'])] Livro $livro
+    ): Response {
         return $this->render('livro/show.html.twig', [
             'livro' => $livro,
         ]);
@@ -57,6 +58,7 @@ final class LivroController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $entityManager->flush();
 
             $this->addFlash('success', 'Livro atualizado com sucesso!');
@@ -69,8 +71,11 @@ final class LivroController extends AbstractController
         ]);
     }
 
-    public function delete(Request $request, #[MapEntity(mapping: ['Codl' => 'Codl'])] Livro $livro, EntityManagerInterface $entityManager): Response
-    {
+    public function delete(
+        Request $request,
+        #[MapEntity(mapping: ['Codl' => 'Codl'])] Livro $livro,
+        EntityManagerInterface $entityManager
+    ): Response {
         if ($this->isCsrfTokenValid('delete' . $livro->getCodl(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($livro);
             $entityManager->flush();
