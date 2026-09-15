@@ -54,14 +54,10 @@ class LivroType extends AbstractType
             ->add('Edicao', IntegerType::class, [
                 'empty_data' => '',
                 'label' => 'Edição',
-                'attr' => ['maxlength' => 10, 'placeholder' => 'Digite a edição do livro'],
+                'attr' => ['maxlength' => 13, 'placeholder' => 'Digite a edição do livro', 'oninput' => 'if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);'],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'A edição do livro não pode estar em branco.',
-                    ]),
-                    new Length([
-                        'max' => 10,
-                        'maxMessage' => 'A edição do livro não pode ter mais de {{ limit }} caracteres.',
                     ]),
                 ],
             ])

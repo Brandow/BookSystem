@@ -7,7 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 use App\Repository\LivroRepository;
 use App\Repository\AutorRepository;
 use App\Repository\AssuntoRepository;
-
 final class HomeController extends AbstractController
 {
     public function index(LivroRepository $livrosRepository, AutorRepository $autoresRepository, AssuntoRepository $assuntosRepository): Response
